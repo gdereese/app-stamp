@@ -1,0 +1,37 @@
+language: node_js
+
+addons:
+  sonarcloud:
+    organization: $SONARCLOUD_ORG_KEY
+    token:
+      secure: $SONARCLOUD_TOKEN
+
+jdk:
+  - oraclejdk8
+
+node_js:
+  - 'node'
+  - '8'
+  - '6'
+  
+script: 
+  - npm test
+
+cache:
+  directories:
+    - '$HOME/.sonar/cache'
+
+jobs:
+  include:
+    - stage: Analyze
+      node_js: 'node'
+      script: npm run-script coverage && sonar-scanner -Dsonar.projectVersion=$(echo $TRAVIS_COMMIT | cut -c 1-7)
+    - stage: Publish
+      node_js: 'node'
+      deploy:
+        provider: npm
+        email: $NPM_EMAIL
+        api_key: $NPM_API_TOKEN
+        skip_cleanup: true
+        on:
+          tags: true

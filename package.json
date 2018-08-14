@@ -1,0 +1,51 @@
+{
+  "name": "version-stamp",
+  "version": "0.1.0",
+  "description": "",
+  "keywords": [],
+  "author": "Gary DeReese Jr",
+  "license": "MIT",
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gdereese/version-stamp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gdereese/version-stamp/issues"
+  },
+  "main": "index.js",
+  "bin": "dist/index.js",
+  "files": [
+    "dist/**"
+  ],
+  "scripts": {
+    "build": "npm run-script lint && babel src -d dist",
+    "coverage": "nyc --reporter=lcov npm test",
+    "lint": "eslint src/** test/**",
+    "postversion": "git push && git push --tags",
+    "prepublishOnly": "npm run-script build",
+    "preversion": "npm test",
+    "version": "npm run-script build",
+    "test": "jasmine test/**/*.spec.js"
+  },
+  "devDependencies": {
+    "babel-cli": "6.26.0",
+    "babel-preset-env": "1.7.0",
+    "eslint": "5.3.0",
+    "eslint-config-prettier": "3.0.1",
+    "eslint-plugin-jasmine": "2.10.1",
+    "eslint-plugin-node": "7.0.1",
+    "eslint-plugin-prettier": "2.6.2",
+    "jasmine": "3.2.0",
+    "nyc": "12.0.2",
+    "prettier": "1.14.2",
+    "sonar-scanner": "3.1.0"
+  },
+  "dependencies": {
+    "chalk": "2.4.1",
+    "commander": "2.17.1",
+    "jsonfile": "4.0.0"
+  }
+}
