@@ -1,17 +1,13 @@
 function parseArgs(options) {
-  const includePattern = new RegExp(
-    `^(${options.availableSources.join('|')})$`,
-    'i'
-  );
-
   options.program
+    .option('--date [value]', 'Include timestamp')
     .option(
-      '-i, --include <sources>',
-      'List of sources to include in stamp',
-      val => val.split(',')
+      '--npm [package-json-path]',
+      'Include info from NPM package.json',
+      'package.json'
     )
-    .option('-f, --format', 'Format for output stamp', includePattern, 'json')
-    .option('-o, --output-path <path>', 'Path to output file', 'stamp.json')
+    .option('--format <format>', 'Format for output stamp file', 'json')
+    .option('--output-path <path>', 'Path to output file', 'stamp.json')
     .parse(process.argv);
 
   return options.program;
