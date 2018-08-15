@@ -1,8 +1,6 @@
 function getDateInfo(value) {
-  const numValue = +value;
-
   return {
-    date: new Date(numValue || value).valueOf()
+    date: value === true ? Date.now() : new Date(+value || value).valueOf()
   };
 }
 

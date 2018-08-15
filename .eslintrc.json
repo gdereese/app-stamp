@@ -1,7 +1,8 @@
 {
   "env": {
     "es6": true,
-    "jasmine": true
+    "jasmine": true,
+    "node": true
   },
   "extends": [
     "eslint:recommended",
@@ -10,7 +11,7 @@
     "plugin:prettier/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 8,
     "sourceType": "module"
   },
   "plugins": ["jasmine", "node", "prettier"],

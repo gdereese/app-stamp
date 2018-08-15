@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const chalk = require('chalk');
-const fs = require('fs');
+const jsonfile = require('jsonfile');
 const path = require('path');
 const program = require('commander');
 
@@ -10,43 +10,56 @@ const Logger = require('./logger');
 const parseArgs = require('./parse-args');
 const validateArgs = require('./validate-args');
 
-const logger = new Logger(chalk);
+async function main() {
+  const logger = new Logger(chalk);
 
-logger.info();
+  logger.info();
 
-const parseOptions = {
-  availableSources: Object.keys(infoProviders),
-  program
-};
-const args = parseArgs(parseOptions);
+  const args = parseArgs({
+    availableSources: Object.keys(infoProviders),
+    program
+  });
 
-const validationOptions = {
-  args
-};
-validateArgs(validationOptions);
+  validateArgs({ args });
 
-const argsKeys = Object.keys(args);
-const selectedInfoProviders = Object.keys(infoProviders).filter(k =>
-  argsKeys.includes(k)
-);
-const infoSlices = selectedInfoProviders.map(k => {
-  const infoArgs = args[k];
-  return infoProviders[k](infoArgs);
-});
-const stamp = infoSlices.reduce((s, o) => Object.assign(s, o), {});
+  const argsKeys = Object.keys(args);
+  const selectedInfoProviders = Object.keys(infoProviders).filter(
+    k => argsKeys.includes(k) && args[k]
+  );
+  const infoSlices = await Promise.all(
+    selectedInfoProviders.map(k => {
+      const infoArgs = args[k];
+      return infoProviders[k](infoArgs);
+    })
+  );
+  const stamp = infoSlices.reduce((s, o) => Object.assign(s, o), {});
 
-const stampKeys = Object.keys(stamp);
-stampKeys.sort();
-stampKeys.map(k => `${k} = ${stamp[k]}`).forEach(s => {
-  logger.info(s);
-});
+  const stampKeys = Object.keys(stamp);
+  stampKeys.sort();
+  stampKeys.map(k => `${k} = ${stamp[k]}`).forEach(s => {
+    logger.info(s);
+  });
 
-// file is indented using spaces; come fight me
-const indentLength = 2;
-fs.writeFileSync(
-  args.outputPath,
-  JSON.stringify(stamp, null, ' '.repeat(indentLength))
-);
-logger.success(`Stamp file written to ${path.resolve(args.outputPath)}.`);
+  await writeStamp(stamp, args.outputPath);
 
-logger.info();
+  logger.success(`Stamp file written to ${path.resolve(args.outputPath)}.`);
+  logger.info();
+}
+
+function writeStamp(stamp, path) {
+  // file is indented using spaces; come fight me
+  const indentLength = 2;
+
+  return new Promise((resolve, reject) => {
+    jsonfile.writeFile(path, stamp, { spaces: indentLength }, err => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      resolve();
+    });
+  });
+}
+
+main();
