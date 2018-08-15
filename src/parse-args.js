@@ -5,6 +5,10 @@ function parseArgs(options) {
       'Include timestamp; accepts any valid numeric or string date representation (default: current date/time)'
     )
     .option(
+      '--git [repo-dir]',
+      'Include info from Git repository (default: current directory)'
+    )
+    .option(
       '--hash <file-path>',
       "Include MD5 hash of the specified file's contents"
     )

@@ -13,7 +13,8 @@ async function getNpmPackageInfo(value) {
       const propsToInclude = ['author', 'name', 'version'];
       const info = propsToInclude.reduce((i, k) => {
         if (obj[k]) {
-          i[k] = obj[k];
+          const infoPropName = `npm_${k}`;
+          i[infoPropName] = obj[k];
         }
         return i;
       }, {});
