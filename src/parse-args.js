@@ -16,8 +16,8 @@ function parseArgs(options) {
       '--npm [package-json-path]',
       'Include info from NPM package.json (default: package.json in current directory)'
     )
-    .option('--format <format>', 'Format for output stamp file', 'json')
     .option('--output-path <path>', 'Path to output file', 'stamp.json')
+    .option('--verbose', 'Writes detailed output to console')
     .parse(process.argv);
 
   return options.program;

@@ -5,16 +5,12 @@ const jsonfile = require('jsonfile');
 const path = require('path');
 const program = require('commander');
 
+const createLogger = require('./create-logger');
 const infoProviders = require('./info-providers');
-const Logger = require('./logger');
 const parseArgs = require('./parse-args');
 const validateArgs = require('./validate-args');
 
 async function main() {
-  const logger = new Logger(chalk);
-
-  logger.info();
-
   const args = parseArgs({
     availableSources: Object.keys(infoProviders),
     program
@@ -22,6 +18,14 @@ async function main() {
 
   validateArgs({ args });
 
+  const logger = createLogger({
+    chalk,
+    isVerbose: args.verbose
+  });
+
+  logger.info();
+
+  // assemble stamp object from selected sources
   const argsKeys = Object.keys(args);
   const selectedInfoProviders = Object.keys(infoProviders).filter(
     k => argsKeys.includes(k) && args[k]
@@ -34,19 +38,20 @@ async function main() {
   );
   const stamp = infoSlices.reduce((s, o) => Object.assign(s, o), {});
 
+  // write stamp values to console
   const stampKeys = Object.keys(stamp);
   stampKeys.sort();
   stampKeys.map(k => `${k} = ${stamp[k]}`).forEach(s => {
     logger.info(s);
   });
 
-  await writeStamp(stamp, args.outputPath);
+  await writeStampFile(stamp, args.outputPath);
 
   logger.success(`Stamp file written to ${path.resolve(args.outputPath)}.`);
   logger.info();
 }
 
-function writeStamp(stamp, path) {
+function writeStampFile(stamp, path) {
   // file is indented using spaces; come fight me
   const indentLength = 2;
 
