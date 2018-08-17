@@ -7,7 +7,7 @@ async function getGitRepoInfo(value, logger) {
 
   const repoInfo = getRepoInfo(repoPath);
   if (!repoInfo.sha) {
-    logger.warn(`WARNING: Git repo not found in ${path.resolve(repoPath)}.`);
+    logger.warn(`WARNING: Git repository not found: ${path.resolve(repoPath)}`);
     return null;
   }
 
