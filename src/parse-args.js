@@ -20,7 +20,7 @@ function parseArgs(options) {
     .option('--verbose', 'Writes detailed output to console')
     .parse(process.argv);
 
-  return options.program;
+  return options.program.opts();
 }
 
 module.exports = parseArgs;
