@@ -1,8 +1,16 @@
 {
   "name": "app-stamp",
   "version": "0.1.0",
-  "description": "",
-  "keywords": [],
+  "description": "Generates a JSON file from various sources that uniquely identifies a versioned app or package.",
+  "keywords": [
+    "nodejs",
+    "javascript",
+    "timestamp",
+    "md5-hash",
+    "checksum",
+    "git",
+    "version"
+  ],
   "author": "Gary DeReese Jr",
   "license": "MIT",
   "engines": {
