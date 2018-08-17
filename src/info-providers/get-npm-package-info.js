@@ -1,13 +1,20 @@
 const jsonfile = require('jsonfile');
 
-async function getNpmPackageInfo(value) {
+async function getNpmPackageInfo(value, logger) {
   const packageJsonPath = value === true ? 'package.json' : value;
 
   return new Promise((resolve, reject) => {
     jsonfile.readFile(packageJsonPath, (err, obj) => {
       if (err) {
-        reject(err);
-        return;
+        switch (err.code) {
+          case 'ENOENT':
+            logger.warn(`WARNING: NPM package not found: ${packageJsonPath}`);
+            resolve(null);
+            return;
+          default:
+            reject(err);
+            return;
+        }
       }
 
       const propsToInclude = ['author', 'name', 'version'];
