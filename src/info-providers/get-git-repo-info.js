@@ -1,9 +1,15 @@
+const path = require('path');
+
 const getRepoInfo = require('git-repo-info');
 
-async function getGitRepoInfo(value) {
+async function getGitRepoInfo(value, logger) {
   const repoPath = value === true ? '.' : value;
 
   const repoInfo = getRepoInfo(repoPath);
+  if (!repoInfo.sha) {
+    logger.warn(`WARNING: Git repo not found in ${path.resolve(repoPath)}.`);
+    return null;
+  }
 
   return {
     git_author: repoInfo.author,

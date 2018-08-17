@@ -21,7 +21,14 @@
       "name": "Program",
       "preLaunchTask": "build",
       "program": "${workspaceFolder}/src/index.js",
-      "args": ["--date", "--npm", "--hash", "src/index.js", "--verbose"]
+      "args": [
+        "--date",
+        "--npm",
+        "--hash",
+        "src/index.js",
+        "--git",
+        "--verbose"
+      ]
     }
   ]
 }

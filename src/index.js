@@ -33,7 +33,7 @@ async function main() {
   const infoSlices = await Promise.all(
     selectedInfoProviders.map(k => {
       const infoArgs = args[k];
-      return infoProviders[k](infoArgs);
+      return infoProviders[k](infoArgs, logger);
     })
   );
   const stamp = infoSlices.reduce((s, o) => Object.assign(s, o), {});

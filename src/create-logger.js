@@ -9,6 +9,11 @@ function createLogger(options = {}) {
       if (options.isVerbose) {
         log(str || '', (options.chalk || {}).green);
       }
+    },
+    warn(str) {
+      if (options.isVerbose) {
+        log(str || '', (options.chalk || {}).yellow);
+      }
     }
   };
 }
