@@ -1,5 +1,5 @@
 {
-  "name": "version-stamp",
+  "name": "app-stamp",
   "version": "0.1.0",
   "description": "",
   "keywords": [],
@@ -10,10 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gdereese/version-stamp.git"
+    "url": "https://github.com/gdereese/app-stamp.git"
   },
   "bugs": {
-    "url": "https://github.com/gdereese/version-stamp/issues"
+    "url": "https://github.com/gdereese/app-stamp/issues"
   },
   "main": "index.js",
   "bin": "dist/index.js",
