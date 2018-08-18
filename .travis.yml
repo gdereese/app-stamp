@@ -12,9 +12,8 @@ jdk:
 node_js:
   - 'node'
   - '8'
-  - '6'
-  
-script: 
+
+script:
   - npm test
 
 cache:
