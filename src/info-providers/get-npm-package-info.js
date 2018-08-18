@@ -6,15 +6,14 @@ async function getNpmPackageInfo(value, logger) {
   return new Promise((resolve, reject) => {
     jsonfile.readFile(packageJsonPath, (err, obj) => {
       if (err) {
-        switch (err.code) {
-          case 'ENOENT':
-            logger.warn(`WARNING: NPM package not found: ${packageJsonPath}`);
-            resolve(null);
-            return;
-          default:
-            reject(err);
-            return;
+        if (err.code === 'ENOENT') {
+          logger.warn(`WARNING: NPM package not found: ${packageJsonPath}`);
+          resolve(null);
+          return;
         }
+
+        reject(err);
+        return;
       }
 
       const propsToInclude = ['author', 'name', 'version'];

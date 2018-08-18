@@ -6,13 +6,12 @@ async function getFileHashInfo(filePath, logger) {
       hash_md5: await md5File(filePath)
     };
   } catch (err) {
-    switch (err.code) {
-      case 'ENOENT':
-        logger.warn(`WARNING: File not found to generate hash: ${filePath}`);
-        return null;
-      default:
-        throw err;
+    if (err.code === 'ENOENT') {
+      logger.warn(`WARNING: File not found to generate hash: ${filePath}`);
+      return null;
     }
+
+    throw err;
   }
 }
 
