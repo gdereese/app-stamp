@@ -69,7 +69,7 @@ Command-line:
 $ app-stamp --git --npm --output-path dist/stamp.json
 ```
 
-`stamp.json`:
+stamp.json:
 
 ```
 {
