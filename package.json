@@ -1,6 +1,6 @@
 {
   "name": "app-stamp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Generates a JSON file from various sources that uniquely identifies a versioned app or package.",
   "keywords": [
     "nodejs",
